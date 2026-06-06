@@ -1,0 +1,39 @@
+#include <stdio.h>
+
+/**
+ * Function to convert decimal to binary and print it.
+ * Uses an array to store remainders and then prints them in reverse.
+ */
+void convertToBinary(int n) {
+    int binaryNum[32]; // Array to store up to 32 bits
+    int i = 0;
+    
+    // Case for 0
+    if (n == 0) {
+        printf("0");
+        return;
+    }
+
+    // Step 1 & 2: Divide by 2 and store remainders
+    while (n > 0) {
+        binaryNum[i] = n % 2;
+        n = n / 2;
+        i++;
+    }
+
+    // Step 3: Print the array in reverse order
+    for (int j = i - 1; j >= 0; j--)
+        printf("%d", binaryNum[j]);
+}
+
+int main() {
+    int n;
+    printf("Enter a decimal number: ");
+    if (scanf("%d", &n) == 1) {
+        printf("Binary equivalent: ");
+        convertToBinary(n);
+        printf("\n");
+    }
+    return 0;
+}
+

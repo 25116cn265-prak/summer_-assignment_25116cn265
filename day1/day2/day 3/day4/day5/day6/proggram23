@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+/**
+ * Counts the number of set bits (1s) in an integer.
+ * This function uses Brian Kernighan’s algorithm.
+ */
+int countSetBits(int n) {
+    int count = 0;
+    while (n > 0) {
+        // This operation flips the rightmost set bit to 0
+        n &= (n - 1);
+        count++;
+    }
+    return count;
+}
+
+int main() {
+    int num = 103; // Binary: 01100111
+    printf("Number of set bits in %d is: %d\n", num, countSetBits(num));
+    return 0;
+}
