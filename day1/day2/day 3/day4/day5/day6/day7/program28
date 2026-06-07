@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int reverse_function(int num) {
+    static int revNum = 0; // Static variable preserves value across calls
+    int rem;
+
+    if (num > 0) {
+        rem = num % 10;
+        revNum = revNum * 10 + rem;
+        reverse_function(num / 10);
+    }
+    
+    return revNum;
+}
+
+int main() {
+    int num = 4321;
+    printf("Original: %d\n", num);
+    printf("Reversed: %d\n", reverse_function(num));
+    return 0;
+}

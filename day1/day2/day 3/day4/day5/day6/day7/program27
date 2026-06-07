@@ -1,0 +1,15 @@
+#include <stdio.h>
+
+int sum_of_digits(int n) {
+    // Base Case
+    if (n == 0)
+        return 0;
+    // Recursive Case
+    return (n % 10) + sum_of_digits(n / 10);
+}
+
+int main() {
+    int num = 12345;
+    printf("Sum of digits in %d is %d\n", num, sum_of_digits(num));
+    return 0;
+}
