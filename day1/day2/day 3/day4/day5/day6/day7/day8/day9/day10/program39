@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+int main() {
+    int n = 5; // You can change this variable to print more or fewer rows
+
+    for (int i = 1; i <= n; i++) {
+        // 1. Print leading spaces for alignment
+        for (int space = 1; space <= n - i; space++) {
+            printf(" ");
+        }
+
+        // 2. Print numbers in increasing order
+        for (int j = 1; j <= i; j++) {
+            printf("%d", j);
+        }
+
+        // 3. Print numbers in decreasing order
+        for (int j = i - 1; j >= 1; j--) {
+            printf("%d", j);
+        }
+
+        // Move to the next line after printing each row
+        printf("\n");
+    }
+
+    return 0;
+}
