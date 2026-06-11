@@ -1,0 +1,38 @@
+#include <stdio.h>
+
+// Function declaration
+unsigned long long findFactorial(int n);
+
+int main() {
+    int number;
+    unsigned long long factorial;
+
+    printf("Enter a positive integer: ");
+    if (scanf("%d", &number) != 1) {
+        printf("Invalid input.\n");
+        return 1;
+    }
+
+    // Check for negative numbers since factorial is only for non-negative integers
+    if (number < 0) {
+        printf("Error! Factorial of a negative number does not exist.\n");
+    } else {
+        // Function call
+        factorial = findFactorial(number);
+        printf("Factorial of %d = %llu\n", number, factorial);
+    }
+
+    return 0;
+}
+
+// Function definition using a loop
+unsigned long long findFactorial(int n) {
+    unsigned long long result = 1;
+
+    // Loop from 1 to n to calculate the product
+    for (int i = 1; i <= n; i++) {
+        result *= i;
+    }
+
+    return result;
+}

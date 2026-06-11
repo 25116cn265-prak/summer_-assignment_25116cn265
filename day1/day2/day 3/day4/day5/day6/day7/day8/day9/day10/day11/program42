@@ -1,0 +1,28 @@
+#include <stdio.h>
+
+// Function declaration to find the maximum value
+int findMaximum(int arr[], int size) {
+    // Initialize max with the first element of the array
+    int maxVal = arr[0]; 
+    
+    // Traverse the array from the second element
+    for (int i = 1; i < size; i++) {
+        if (arr[i] > maxVal) {
+            maxVal = arr[i]; // Update maxVal if a larger element is found
+        }
+    }
+    
+    return maxVal;
+}
+
+int main() {
+    int data[] = {19, 82, 45, 91, 3, 67};
+    int size = sizeof(data) / sizeof(data[0]); // Calculate array size dynamically
+    
+    // Call the custom function
+    int maxResult = findMaximum(data, size);
+    
+    printf("The maximum value is: %d\n", maxResult);
+    
+    return 0;
+}
