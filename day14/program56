@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+void findDuplicates(int arr[], int size) {
+    bool hasDuplicate = false;
+    printf("Duplicate elements in the array: ");
+
+    for (int i = 0; i < size; i++) {
+        bool alreadyPrinted = false;
+        
+        // Check if the current element was already processed as a duplicate earlier
+        for (int k = 0; k < i; k++) {
+            if (arr[i] == arr[k]) {
+                alreadyPrinted = true;
+                break;
+            }
+        }
+        
+        // If it's the first time seeing this value, check the rest of the array for duplicates
+        if (!alreadyPrinted) {
+            for (int j = i + 1; j < size; j++) {
+                if (arr[i] == arr[j]) {
+                    printf("%d ", arr[i]);
+                    hasDuplicate = true;
+                    break; // Break early since we only need to print this duplicate once
+                }
+            }
+        }
+    }
+
+    if (!hasDuplicate) {
+        printf("None");
+    }
+    printf("\n");
+}
+
+int main() {
+    // Example array with duplicates (including a value repeated three times)
+    int arr[] = {4, 2, 7, 4, 8, 2, 4, 1};
+    int size = sizeof(arr) / sizeof(arr[0]);
+
+    // Display original array
+    printf("Original array: ");
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+
+    // Call the function to find duplicates
+    findDuplicates(arr, size);
+
+    return 0;
+}
