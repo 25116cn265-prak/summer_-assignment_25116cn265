@@ -1,0 +1,33 @@
+#include <stdio.h>
+
+// Function to find the missing number
+int findMissingNumber(int arr[], int size) {
+    // If the array has 'size' elements, the total sequence should have N = size + 1 elements
+    int n = size + 1;
+    
+    // Calculate the expected sum of 1 to N numbers
+    int expectedSum = (n * (n + 1)) / 2;
+    
+    // Calculate the actual sum of elements in the array
+    int actualSum = 0;
+    for (int i = 0; i < size; i++) {
+        actualSum += arr[i];
+    }
+    
+    // The difference represents the missing value
+    return expectedSum - actualSum;
+}
+
+int main() {
+    // Example: Numbers from 1 to 6, with '4' missing
+    int arr[] = {1, 2, 6, 3, 5}; 
+    int size = sizeof(arr) / sizeof(arr[0]);
+    
+    // Call the function and store the result
+    int missingNumber = findMissingNumber(arr, size);
+    
+    // Display result
+    printf("The missing number is: %d\n", missingNumber);
+    
+    return 0;
+}

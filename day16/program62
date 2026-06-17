@@ -1,0 +1,46 @@
+#include <stdio.h>
+
+int main() {
+    int size;
+
+    // Get the size of the array from the user
+    printf("Enter the number of elements in the array: ");
+    if (scanf("%d", &size) != 1 || size <= 0) {
+        printf("Invalid array size.\n");
+        return 1;
+    }
+
+    int arr[size];
+
+    // Input array elements
+    printf("Enter %d elements:\n", size);
+    for (int i = 0; i < size; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    int maxElement = arr[0];
+    int maxCount = 0;
+
+    // Logic to find the maximum frequency element
+    for (int i = 0; i < size; i++) {
+        int count = 0;
+        
+        for (int j = 0; j < size; j++) {
+            if (arr[j] == arr[i]) {
+                count++;
+            }
+        }
+        
+        // Update max variables if a higher frequency is found
+        if (count > maxCount) {
+            maxCount = count;
+            maxElement = arr[i];
+        }
+    }
+
+    // Output the final result
+    printf("\nMaximum Frequency Element: %d\n", maxElement);
+    printf("Total Occurrences: %d times\n", maxCount);
+
+    return 0;
+}

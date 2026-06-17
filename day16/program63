@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+// Function to find and print a pair with the given target sum
+bool findPairBruteForce(int arr[], int size, int target) {
+    // Outer loop selects the first element
+    for (int i = 0; i < size - 1; i++) {
+        // Inner loop checks subsequent elements
+        for (int j = i + 1; j < size; j++) {
+            if (arr[i] + arr[j] == target) {
+                printf("Pair found: (%d, %d)\n", arr[i], arr[j]);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+int main() {
+    int arr[] = {8, 7, 2, 5, 3, 1};
+    int target = 10;
+    int size = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Searching for a pair with sum %d...\n", target);
+    if (!findPairBruteForce(arr, size, target)) {
+        printf("No valid pair exists in the array.\n");
+    }
+
+    return 0;
+}
