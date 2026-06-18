@@ -1,0 +1,58 @@
+#include <stdio.h>
+
+int main() {
+    int arr1[] = {4, 2, 9, 6, 2, 1, 7};
+    int arr2[] = {5, 6, 2, 2, 8, 4};
+    
+    // Calculate the size of both arrays
+    int size1 = sizeof(arr1) / sizeof(arr1[0]);
+    int size2 = sizeof(arr2) / sizeof(arr2[0]);
+    
+    // Array to store common elements and prevent duplicates
+    int common[100]; 
+    int k = 0; // Tracks the size of the common array
+
+    printf("Array 1: ");
+    for(int i = 0; i < size1; i++) printf("%d ", arr1[i]);
+    
+    printf("\nArray 2: ");
+    for(int i = 0; i < size2; i++) printf("%d ", arr2[i]);
+
+    printf("\n\nCommon elements are: ");
+
+    // Step 1: Loop through the first array
+    for (int i = 0; i < size1; i++) {
+        // Step 2: Check if it exists in the second array
+        for (int j = 0; j < size2; j++) {
+            if (arr1[i] == arr2[j]) {
+                
+                // Step 3: Check if we already handled this element to avoid duplicates
+                int isDuplicate = 0;
+                for (int x = 0; x < k; x++) {
+                    if (arr1[i] == common[x]) {
+                        isDuplicate = 1;
+                        break;
+                    }
+                }
+                
+                // Step 4: If it is a new common element, save and print it
+                if (!isDuplicate) {
+                    common[k] = arr1[i];
+                    k++;
+                    printf("%d ", arr1[i]);
+                }
+                
+                // Break inner loop since a match for arr1[i] is already found
+                break; 
+            }
+        }
+    }
+    
+    // Print message if no intersection exists
+    if (k == 0) {
+        printf("None");
+    }
+
+    printf("\n");
+    return 0;
+}

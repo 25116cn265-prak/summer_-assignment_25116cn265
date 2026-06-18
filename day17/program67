@@ -1,0 +1,69 @@
+#include <stdio.h>
+
+// Function to find the intersection of two arrays
+int findIntersection(int arr1[], int size1, int arr2[], int size2, int result[]) {
+    int k = 0; // Index tracker for the result array
+
+    for (int i = 0; i < size1; i++) {
+        int isPresentInBoth = 0;
+
+        // Check if the element exists in the second array
+        for (int j = 0; j < size2; j++) {
+            if (arr1[i] == arr2[j]) {
+                isPresentInBoth = 1;
+                break;
+            }
+        }
+
+        // If found in both, check to prevent duplicate entries in the result
+        if (isPresentInBoth) {
+            int isDuplicate = 0;
+            for (int l = 0; l < k; l++) {
+                if (result[l] == arr1[i]) {
+                    isDuplicate = 1;
+                    break;
+                }
+            }
+
+            // Add to result if it's a unique common element
+            if (!isDuplicate) {
+                result[k] = arr1[i];
+                k++;
+            }
+        }
+    }
+    return k; // Return the total number of elements in the intersection
+}
+
+int main() {
+    int arr1[] = {4, 9, 5, 4};
+    int arr2[] = {9, 4, 9, 8, 4, 1};
+    
+    int size1 = sizeof(arr1) / sizeof(arr1[0]);
+    int size2 = sizeof(arr2) / sizeof(arr2[0]);
+    
+    // The maximum possible size of the intersection is the size of the smaller array
+    int maxIntersectionSize = (size1 < size2) ? size1 : size2;
+    int result[maxIntersectionSize];
+
+    int intersectionSize = findIntersection(arr1, size1, arr2, size2, result);
+
+    // Print the results
+    printf("Array 1: ");
+    for (int i = 0; i < size1; i++) printf("%d ", arr1[i]);
+    
+    printf("\nArray 2: ");
+    for (int i = 0; i < size2; i++) printf("%d ", arr2[i]);
+
+    printf("\nIntersection: ");
+    if (intersectionSize == 0) {
+        printf("No common elements.");
+    } else {
+        for (int i = 0; i < intersectionSize; i++) {
+            printf("%d ", result[i]);
+        }
+    }
+    printf("\n");
+
+    return 0;
+}
