@@ -1,0 +1,62 @@
+#include <stdio.h>
+
+// Function to perform Bubble Sort on an array
+void bubbleSort(int arr[], int n) {
+    int i, j, temp;
+    int swapped;
+
+    // Outer loop handles the number of passes
+    for (i = 0; i < n - 1; i++) {
+        swapped = 0; // Reset flag for the current pass
+
+        // Inner loop compares adjacent elements
+        for (j = 0; j < n - i - 1; j++) {
+            // Swap if the element is greater than the next element
+            if (arr[j] > arr[j + 1]) {
+                temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+                
+                swapped = 1; // Mark that a swap occurred
+            }
+        }
+
+        // Optimization: If no elements were swapped, the array is already sorted
+        if (swapped == 0) {
+            break;
+        }
+    }
+}
+
+// Function to print the utility array
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int arr[100], n;
+
+    // Request total number of elements from user
+    printf("Enter the number of elements (Max 100): ");
+    scanf("%d", &n);
+
+    // Read array elements from user
+    printf("Enter %d integers:\n", n);
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    printf("\nUnsorted array: \n");
+    printArray(arr, n);
+
+    // Call bubble sort function
+    bubbleSort(arr, n);
+
+    printf("\nSorted array in ascending order: \n");
+    printArray(arr, n);
+
+    return 0;
+}
