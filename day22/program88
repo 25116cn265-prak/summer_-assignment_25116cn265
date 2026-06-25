@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+
+void removeSpaces(char *str) {
+    int write_index = 0;
+
+   
+    for (int read_index = 0; str[read_index] != '\0'; read_index++) {
+        // If the current character is not a space, copy it
+        if (str[read_index] != ' ') {
+            str[write_index] = str[read_index];
+            write_index++;
+        }
+    }
+    
+   
+    str[write_index] = '\0';
+}
+
+int main() {
+    
+    char text[] = "H e l l o   W o r l d !";
+
+    printf("Original string: \"%s\"\n", text);
+
+    removeSpaces(text);
+
+    printf("Modified string: \"%s\"\n", text);
+
+    return 0;
+}
