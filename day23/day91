@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+#define MAX_CHAR 256
+
+
+bool checkAnagram(const char *str1, const char *str2) {
+    int count[MAX_CHAR] = {0};
+    int i;
+
+   
+    if (strlen(str1) != strlen(str2)) {
+        return false;
+    }
+
+    
+    for (i = 0; str1[i] != '\0'; i++) {
+        count[(unsigned char)str1[i]]++;
+        count[(unsigned char)str2[i]]--;
+    }
+
+    
+    for (i = 0; i < MAX_CHAR; i++) {
+        if (count[i] != 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+int main() {
+    char str1[100];
+    char str2[100];
+
+    printf("Enter the first string: ");
+    scanf("%99s", str1);
+
+    printf("Enter the second string: ");
+    scanf("%99s", str2);
+
+    if (checkAnagram(str1, str2)) {
+        printf("\"%s\" and \"%s\" are anagrams.\n", str1, str2);
+    } else {
+        printf("\"%s\" and \"%s\" are not anagrams.\n", str1, str2);
+    }
+
+    return 0;
+}
