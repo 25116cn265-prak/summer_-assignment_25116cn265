@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main() {
+    char text[500];
+    
+    printf("Enter a sentence: ");
+   
+    if (fgets(text, sizeof(text), stdin) == NULL) {
+        return 1;
+    }
+
+    int i = 0;
+    int current_len = 0;
+    int current_start = 0;
+    
+    int max_len = 0;
+    int max_start = 0;
+
+
+    while (text[i] != '\0') {
+        
+       
+        if (isalnum((unsigned char)text[i])) {
+            if (current_len == 0) {
+                current_start = i; 
+            }
+            current_len++;
+        } 
+        
+        else {
+            if (current_len > max_len) {
+                max_len = current_len;
+                max_start = current_start;
+            }
+            current_len = 0; 
+        }
+        i++;
+    }
+
+   
+    if (current_len > max_len) {
+        max_len = current_len;
+        max_start = current_start;
+    }
+
+    
+    if (max_len > 0) {
+        printf("The longest word is: ");
+        for (int j = 0; j < max_len; j++) {
+            putchar(text[max_start + j]);
+        }
+        printf("\nLength: %d characters\n", max_len);
+    } else {
+        printf("No valid words found.\n");
+    }
+
+    return 0;
+}
