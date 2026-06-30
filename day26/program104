@@ -1,0 +1,115 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+#define TOTAL_QUESTIONS 4
+
+
+typedef struct {
+    char question_text[256];
+    char options[4][64];
+    char correct_option;
+} QuizQuestion;
+
+
+void display_welcome_message();
+void run_quiz(QuizQuestion quiz[], int total_q, int *score);
+void display_final_score(int score, int total_q);
+
+int main() {
+    int final_score = 0;
+
+   
+    QuizQuestion bank[TOTAL_QUESTIONS] = {
+        {
+            "Which programming language is known as the 'mother of all languages'?",
+            {"A. Python", "B. C", "C. Java", "D. C++"},
+            'B'
+        },
+        {
+            "What is the only even prime number?",
+            {"A. 2", "B. 4", "C. 6", "D. 8"},
+            'A'
+        },
+        {
+            "Which planet is closest to the Sun?",
+            {"A. Earth", "B. Mars", "C. Mercury", "D. Venus"},
+            'C'
+        },
+        {
+            "What does CPU stand for?",
+            {"A. Central Process Unit", "B. Computer Processing Unit", "C. Central Processing Unit", "D. Control Processing Unit"},
+            'C'
+        }
+    };
+
+    display_welcome_message();
+    run_quiz(bank, TOTAL_QUESTIONS, &final_score);
+    display_final_score(final_score, TOTAL_QUESTIONS);
+
+    return 0;
+}
+
+
+void display_welcome_message() {
+    printf("=========================================\n");
+    printf("      WELCOME TO THE C QUIZ GAME         \n");
+    printf("=========================================\n");
+    printf("Instructions:\n");
+    printf("1. There are %d questions in total.\n", TOTAL_QUESTIONS);
+    printf("2. Type the correct option letter (A, B, C, or D).\n");
+    printf("3. The application is not case-sensitive.\n");
+    printf("-----------------------------------------\n\n");
+}
+
+
+void run_quiz(QuizQuestion quiz[], int total_q, int *score) {
+    char user_input;
+
+    for (int i = 0; i < total_q; i++) {
+        printf("Question %d: %s\n", i + 1, quiz[i].question_text);
+        
+       
+        for (int j = 0; j < 4; j++) {
+            printf("%s\n", quiz[i].options[j]);
+        }
+
+        
+        do {
+            printf("Your Answer (A/B/C/D): ");
+            scanf(" %c", &user_input);
+            user_input = toupper(user_input); // Convert lowercase inputs automatically
+        } while (user_input < 'A' || user_input > 'D');
+
+       
+        if (user_input == quiz[i].correct_option) {
+            printf("\n=> Correct! Excellent.\n\n");
+            (*score)++;
+        } else {
+            printf("\n=> Wrong! The correct answer was %c.\n\n", quiz[i].correct_option);
+        }
+        printf("-----------------------------------------\n");
+    }
+}
+
+
+void display_final_score(int score, int total_q) {
+    printf("\n=========================================\n");
+    printf("               QUIZ OVER                 \n");
+    printf("=========================================\n");
+    printf("Your final score is: %d out of %d\n", score, total_q);
+    
+    float percentage = ((float)score / total_q) * 100;
+    printf("Percentage: %.2f%%\n", percentage);
+
+    if (percentage == 100.0) {
+        printf("Performance Evaluation: Perfect Score!\n");
+    } else if (percentage >= 75.0) {
+        printf("Performance Evaluation: Great Job!\n");
+    } else if (percentage >= 50.0) {
+        printf("Performance Evaluation: Good Effort, Try Again!\n");
+    } else {
+        printf("Performance Evaluation: Needs Improvement.\n");
+    }
+    printf("=========================================\n");
+}

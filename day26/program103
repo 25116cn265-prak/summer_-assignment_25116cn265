@@ -1,0 +1,171 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+
+
+int authenticateUser();
+void displayMenu();
+void checkBalance(double balance);
+double depositMoney(double balance);
+double withdrawMoney(double balance);
+
+int main() {
+    double balance = 5000.0; 
+    int choice;
+    int systemRunning = 1;
+
+    printf("==========================================\n");
+    printf("       WELCOME TO THE ATM SIMULATOR       \n");
+    printf("==========================================\n");
+
+    
+    if (!authenticateUser()) {
+        printf("\nToo many incorrect attempts. Your card has been blocked.\n");
+        printf("Please contact your branch. Exiting...\n");
+        return 0;
+    }
+
+    // Main interaction loop
+    while (systemRunning) {
+        displayMenu();
+        printf("Enter your selection: ");
+        if (scanf("%d", &choice) != 1) {
+            printf("Invalid input type! Please enter a number.\n");
+            while (getchar() != '\n'); 
+            continue;
+        }
+
+        switch (choice) {
+            case 1:
+                checkBalance(balance);
+                break;
+            case 2:
+                balance = depositMoney(balance);
+                break;
+            case 3:
+                balance = withdrawMoney(balance);
+                break;
+            case 4:
+                printf("\nThank you for using our ATM service. Goodbye!\n");
+                systemRunning = 0;
+                break;
+            default:
+                printf("\n[ERROR] Invalid option! Please choose between 1 and 4.\n");
+        }
+        
+        if (systemRunning) {
+            printf("\nPress any key to return to the main menu...");
+            getch(); 
+        }
+    }
+
+    return 0;
+}
+
+
+int authenticateUser() {
+    const int CORRECT_PIN = 1234; 
+    int enteredPin;
+    int attempts = 3;
+    char ch;
+
+    while (attempts > 0) {
+        printf("\nPlease enter your 4-digit secret PIN: ");
+        enteredPin = 0;
+        int i = 0;
+        
+        
+        while (i < 4) {
+            ch = getch();
+            // Check if input is a digit
+            if (ch >= '0' && ch <= '9') {
+                enteredPin = (enteredPin * 10) + (ch - '0');
+                printf("*");
+                i++;
+            } 
+          
+            else if (ch == 8 && i > 0) { 
+                printf("\b \b");
+                enteredPin /= 10;
+                i--;
+            }
+        }
+        printf("\n");
+
+        if (enteredPin == CORRECT_PIN) {
+            printf("\nVerification successful!\n");
+            return 1;
+        } else {
+            attempts--;
+            printf("[INVALID PIN] Remaining attempts: %d\n", attempts);
+        }
+    }
+    return 0; 
+}
+
+
+void displayMenu() {
+    #if defined(_WIN32) || defined(_WIN64)
+        system("cls"); // Clears screen command for Windows console
+    #else
+        system("clear"); 
+    #endif
+
+    printf("\n==========================================\n");
+    printf("                ATM MENU                  \n");
+    printf("==========================================\n");
+    printf(" 1. Check Balance\n");
+    printf(" 2. Deposit Cash\n");
+    printf(" 3. Withdraw Cash\n");
+    printf(" 4. Exit / Quit Session\n");
+    printf("==========================================\n");
+}
+
+
+void checkBalance(double balance) {
+    printf("\n>>> CURRENT BALANCE: $%.2f\n", balance);
+}
+
+
+double depositMoney(double balance) {
+    double depositAmount;
+    printf("\nEnter amount to deposit: $");
+    if (scanf("%lf", &depositAmount) != 1 || depositAmount <= 0) {
+        printf("\n[ERROR] Invalid deposit amount!\n");
+        while (getchar() != '\n'); // Clear input buffer
+        return balance;
+    }
+    
+    balance += depositAmount;
+    printf("\nSuccess! $%.2f deposited safely.\n", depositAmount);
+    printf("Updated balance: $%.2f\n", balance);
+    return balance;
+}
+
+
+double withdrawMoney(double balance) {
+    double withdrawAmount;
+    printf("\nEnter amount to withdraw (Multiples of $10): $");
+    if (scanf("%lf", &withdrawAmount) != 1 || withdrawAmount <= 0) {
+        printf("\n[ERROR] Invalid processing value!\n");
+        while (getchar() != '\n'); 
+        return balance;
+    }
+
+   
+    if ((int)withdrawAmount % 10 != 0) {
+        printf("\n[DENIED] Please request values in multiples of $10 only.\n");
+    } 
+   
+    else if (withdrawAmount > balance) {
+        printf("\n[DENIED] Insufficient funds available!\n");
+        printf("Current Max Withdrawal Allowance: $%.2f\n", balance);
+    } 
+    else {
+        balance -= withdrawAmount;
+        printf("\nProcessing... Please collect your cash.\n");
+        printf("Success! $%.2f withdrawn successfully.\n", withdrawAmount);
+        printf("Remaining balance: $%.2f\n", balance);
+    }
+    return balance;
+}
