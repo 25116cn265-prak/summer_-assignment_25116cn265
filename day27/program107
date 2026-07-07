@@ -1,0 +1,149 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+struct Employee {
+    int id;
+    char name[50];
+    float basic_salary;
+    float allowance;
+    float deductions;
+    float net_salary;
+};
+
+// Function prototypes
+void addEmployee();
+void displayAll();
+void searchEmployee();
+
+const char *FILE_NAME = "salaries.dat";
+
+int main() {
+    int choice;
+
+    while (1) {
+        printf("\n=== SALARY MANAGEMENT SYSTEM ===\n");
+        printf("1. Add Employee Record\n");
+        printf("2. Display All Salary Records\n");
+        printf("3. Search Employee by ID\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        
+        if (scanf("%d", &choice) != 1) {
+            printf("Invalid input. Exiting.\n");
+            break;
+        }
+
+        switch (choice) {
+            case 1:
+                addEmployee();
+                break;
+            case 2:
+                displayAll();
+                break;
+            case 3:
+                searchEmployee();
+                break;
+            case 4:
+                printf("Exiting system. Goodbye!\n");
+                exit(0);
+            default:
+                printf("Invalid choice! Please try again.\n");
+        }
+    }
+    return 0;
+}
+
+
+void addEmployee() {
+    FILE *fp = fopen(FILE_NAME, "ab"); 
+    if (fp == NULL) {
+        printf("Error opening file!\n");
+        return;
+    }
+
+    struct Employee emp;
+
+    printf("\nEnter Employee ID: ");
+    scanf("%d", &emp.id);
+    getchar(); // Clear trailing newline from buffer
+
+    printf("Enter Employee Name: ");
+    fgets(emp.name, sizeof(emp.name), stdin);
+    emp.name[strcspn(emp.name, "\n")] = '\0'; 
+
+    printf("Enter Basic Salary: ");
+    scanf("%f", &emp.basic_salary);
+
+    printf("Enter Allowances (HRA/DA): ");
+    scanf("%f", &emp.allowance);
+
+    printf("Enter Deductions (Tax/PF): ");
+    scanf("%f", &emp.deductions);
+
+   
+    emp.net_salary = (emp.basic_salary + emp.allowance) - emp.deductions;
+
+   
+    fwrite(&emp, sizeof(struct Employee), 1, fp);
+    fclose(fp);
+
+    printf("Record saved successfully!\n");
+}
+
+
+void displayAll() {
+    FILE *fp = fopen(FILE_NAME, "rb"); // Open in read binary mode
+    if (fp == NULL) {
+        printf("\nNo records found. Please add records first.\n");
+        return;
+    }
+
+    struct Employee emp;
+    printf("\n---------------------------------------------------------------------------------\n");
+    printf("%-5s %-20s %-12s %-12s %-12s %-12s\n", "ID", "Name", "Basic", "Allowance", "Deduction", "Net Salary");
+    printf("---------------------------------------------------------------------------------\n");
+
+    while (fread(&emp, sizeof(struct Employee), 1, fp) == 1) {
+        printf("%-5d %-20s %-12.2f %-12.2f %-12.2f %-12.2f\n", 
+               emp.id, emp.name, emp.basic_salary, emp.allowance, emp.deductions, emp.net_salary);
+    }
+    printf("---------------------------------------------------------------------------------\n");
+    fclose(fp);
+}
+
+// Function to look up an employee by ID
+void searchEmployee() {
+    FILE *fp = fopen(FILE_NAME, "rb");
+    if (fp == NULL) {
+        printf("\nNo records found.\n");
+        return;
+    }
+
+    int searchId;
+    int found = 0;
+    struct Employee emp;
+
+    printf("\nEnter Employee ID to search: ");
+    scanf("%d", &searchId);
+
+    while (fread(&emp, sizeof(struct Employee), 1, fp) == 1) {
+        if (emp.id == searchId) {
+            found = 1;
+            printf("\n--- Record Found ---\n");
+            printf("ID          : %d\n", emp.id);
+            printf("Name        : %s\n", emp.name);
+            printf("Basic Pay   : $%.2f\n", emp.basic_salary);
+            printf("Allowances  : $%.2f\n", emp.allowance);
+            printf("Deductions  : $%.2f\n", emp.deductions);
+            printf("Net Salary  : $%.2f\n", emp.net_salary);
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("Employee with ID %d not found.\n", searchId);
+    }
+    fclose(fp);
+}
