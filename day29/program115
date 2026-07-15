@@ -1,0 +1,120 @@
+#include <stdio.h>
+#include <string.h>
+
+
+void clearInputBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+
+void stripNewline(char *str) {
+    size_t len = strlen(str);
+    if (len > 0 && str[len - 1] == '\n') {
+        str[len - 1] = '\0';
+    }
+}
+
+
+void reverseString(char *str) {
+    int len = strlen(str);
+    for (int i = 0; i < len / 2; i++) {
+        char temp = str[i];
+        str[i] = str[len - 1 - i];
+        str[len - 1 - i] = temp;
+    }
+}
+
+int main() {
+    int choice;
+    char str1[200], str2[100], result[200];
+
+    do {
+        // Display Menu System
+        printf("\n====================================");
+        printf("\n    STRING OPERATIONS MENU SYSTEM   ");
+        printf("\n====================================");
+        printf("\n1. Find Length of a String");
+        printf("\n2. Copy a String");
+        printf("\n3. Concatenate Two Strings");
+        printf("\n4. Compare Two Strings");
+        printf("\n5. Reverse a String");
+        printf("\n6. Exit");
+        printf("\n====================================");
+        printf("\nEnter your choice (1-6): ");
+        
+        if (scanf("%d", &choice) != 1) {
+            printf("\nInvalid selection! Please enter a valid number.\n");
+            clearInputBuffer();
+            continue;
+        }
+        
+        clearInputBuffer(); 
+
+        switch (choice) {
+            case 1:
+                printf("\nEnter a string: ");
+                fgets(str1, sizeof(str1), stdin);
+                stripNewline(str1);
+                printf("Length of the string is: %zu\n", strlen(str1));
+                break;
+
+            case 2:
+                printf("\nEnter the source string to copy: ");
+                fgets(str1, sizeof(str1), stdin);
+                stripNewline(str1);
+                strcpy(result, str1);
+                printf("Successfully copied! Target String: %s\n", result);
+                break;
+
+            case 3:
+                printf("\nEnter the first string: ");
+                fgets(str1, sizeof(str1), stdin);
+                stripNewline(str1);
+                printf("Enter the second string to append: ");
+                fgets(str2, sizeof(str2), stdin);
+                stripNewline(str2);
+                
+                
+                strcpy(result, str1);
+                strcat(result, str2);
+                printf("Concatenated String result: %s\n", result);
+                break;
+
+            case 4:
+                printf("\nEnter the first string: ");
+                fgets(str1, sizeof(str1), stdin);
+                stripNewline(str1);
+                printf("Enter the second string: ");
+                fgets(str2, sizeof(str2), stdin);
+                stripNewline(str2);
+
+                int cmpResult = strcmp(str1, str2);
+                if (cmpResult == 0) {
+                    printf("Both strings are perfectly identical.\n");
+                } else if (cmpResult > 0) {
+                    printf("The first string is lexicographically greater than the second.\n");
+                } else {
+                    printf("The second string is lexicographically greater than the first.\n");
+                }
+                break;
+
+            case 5:
+                printf("\nEnter a string to reverse: ");
+                fgets(str1, sizeof(str1), stdin);
+                stripNewline(str1);
+                reverseString(str1);
+                printf("Reversed String: %s\n", str1);
+                break;
+
+            case 6:
+                printf("\nExiting String Menu Operations System. Goodbye!\n");
+                break;
+
+            default:
+                printf("\nInvalid selection! Please pick a choice between 1 and 6.\n");
+        }
+    } while (choice != 6);
+
+    return 0;
+}
